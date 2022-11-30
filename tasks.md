@@ -14,7 +14,7 @@ SELECT * FROM public.matches WHERE season = 2017;
 
 ```sql
 <!-- Copy solution here -->
-SELECT * FROM public.matches WHERE hometeam = 'Barcelona' or awayteam = 'Barcelona';
+SELECT * FROM public.matches WHERE hometeam = 'Barcelona' OR awayteam = 'Barcelona';
 
 ```
 
@@ -33,7 +33,7 @@ SELECT name, country FROM public.divisions WHERE country = 'Scotland';
 ```sql
 <!-- Copy solution here -->
 SELECT code, name FROM public.divisions where name = 'Bundesliga';
-SELECT * FROM public.matches WHERE division_code = 'D1' and hometeam = 'Freiburg' or awayteam = 'Freiburg';
+SELECT COUNT(*) FROM public.matches WHERE division_code = 'D1' AND hometeam = 'Freiburg' awayteam = 'Freiburg';
 
 ```
 
@@ -42,9 +42,12 @@ SELECT * FROM public.matches WHERE division_code = 'D1' and hometeam = 'Freiburg
 ```sql
 <!-- Copy solution here -->
 -- gives you all the information on teams with the word city in their name:
-SELECT * FROM public.matches WHERE hometeam LIKE '%City%' or awayteam LIKE '%City%';
+SELECT * FROM public.matches WHERE hometeam LIKE '%City%' OR awayteam LIKE '%City%';
 
+SELECT DISTINCT hometeam, awayteam FROM matches WHERE hometeam LIKE '%City%' OR awayteam LIKE '%City%';
 
+-- for only home team:
+SELECT DISTINCT hometeam FROM matches WHERE hometeam LIKE '%City%' 
 
 ```
 
@@ -53,6 +56,7 @@ SELECT * FROM public.matches WHERE hometeam LIKE '%City%' or awayteam LIKE '%Cit
 ```sql
 <!-- Copy solution here -->
 
+SELECT COUNT(DISTINCT hometeam) FROM matches WHERE division_code = 'F1' OR division_code = 'F2';
 
 ```
 
@@ -61,14 +65,19 @@ SELECT * FROM public.matches WHERE hometeam LIKE '%City%' or awayteam LIKE '%Cit
 ```sql
 <!-- Copy solution here -->
 
+SELECT * FROM matches WHERE(hometeam = 'Huddersfield' OR awayteam 'Huddersfield') AND (hometeam = 'Swansea' OR awayteam = 'Swansea');
 
+-- could also have: (same thing)
+SELECT * FROM matches WHERE (hometeam = 'Huddersfield' AND awayteam = 'Swansea') OR (hometeam = 'Swansea' AND awayteam = 'Huddersfield');
 ```
+
 
 8) How many draws were there in the Eredivisie between 2010 and 2015?
 
 ```sql
 <!-- Copy solution here -->
-
+select code from division where name = 'Eredivisie';
+select count(*) from matches where division_code = 'N1' and ftr = 'D' and season between 2010 and 2015; 
 
 ```
 
@@ -76,7 +85,8 @@ SELECT * FROM public.matches WHERE hometeam LIKE '%City%' or awayteam LIKE '%Cit
 
 ```sql
 <!-- Copy solution here -->
-
+select code from divisions where name 'Premier League'
+select * from matches where division_code = 'E0' order by (fthg + ftag) DESC, fthg DESC;
 
 ```
 
@@ -84,6 +94,8 @@ SELECT * FROM public.matches WHERE hometeam LIKE '%City%' or awayteam LIKE '%Cit
 
 ```sql
 <!-- Copy solution here -->
+
+Select division_code, season, sum(fthg + ftag) from matches group by division_code, season order by sum(fthg+ ftag) DESC limit 1
 
 
 ```
